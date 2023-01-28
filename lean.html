@@ -1,0 +1,168 @@
+<html lang="zh-cn" oncontextmenu="self.event.returnValue=false" onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <title>自习室</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="logo.png" rel="shortcut icon" type="image/x-icon">
+    <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy">
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <script src="sha.js" type="text/ecmascript"></script>
+    <script src="tool.js">
+    </script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link href="https://cdn.yt-blog.top/npm/notyf@3/notyf.min.css" rel="stylesheet">
+    <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy">
+    <script src="https://cdn.yt-blog.top/npm/notyf@3/notyf.min.js"></script>
+    <link href="../logo.png" mask="" rel="icon" sizes="any">
+    <link href="/css.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/v4-shims.css">
+</head>
+
+<body>
+<!--自适应bing背景-->
+<div id="bing-container" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: -1;">
+    <img class="bing-img" src="https://api.dujin.org/bing/1920.php"
+         style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;">
+</div>
+<script>
+    function fullscreenchange() {
+    // fullScreen 被弃用
+    // const isFullScreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenElement
+
+    // 最新写法
+	  const isFullScreen = document.fullscreenElement
+
+      if (isFullScreen) {
+        console.log('退出全屏')
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen()
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen()
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen()
+        }
+      } else {
+        var fullscreen = document.getElementsByTagName('html')[0]  // 需要全屏的元素
+        console.log('进入全屏')
+        if (fullscreen.requestFullscreen) {
+          fullscreen.requestFullscreen()
+        } else if (fullscreen.mozRequestFullScreen) {
+          fullscreen.mozRequestFullScreen()
+        } else if (fullscreen.webkitRequestFullscreen) {
+          fullscreen.webkitRequestFullscreen()
+        } else if (fullscreen.msRequestFullscreen) {
+          fullscreen.msRequestFullscreen()
+        }
+      }
+    }
+</script>
+
+<!--全屏按钮-->
+<div><button onclick="javascript:fullscreenchange()"><i class="fas fa-layer-group"></i></button></div>
+<!--时间和日期-->
+<div class="app-header" data-v-86e7f910="" data-v-c511a0f6="" style="height: 18vh; margin-top: 0vh;"></div>
+<div class="time-date" style="color: white; text-align: center;">
+    <div class="time">
+        <span id="time" style="font-size: 80px;
+font-family: inherit; text-shadow: 0 2px 6px rgb(0 0 0 / 16%);"></span>
+    </div>
+    <div class="date">
+        <span id="date"></span>
+    </div>
+    <script>
+        //获取时间
+        function getTime() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            var week = date.getDay();
+            var weekArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            var weekStr = weekArr[week];
+            if (hour >= 0 && hour <= 9) {
+                hour = "0" + hour;
+            }
+            if (minute >= 0 && minute <= 9) {
+                minute = "0" + minute;
+            }
+            if (second >= 0 && second <= 9) {
+                second = "0" + second;
+            }
+            var currentTime = year + '年' + month + '月' + day + '日' + '  ' + weekStr;
+            var NowTime = hour + ':' + minute
+            return {currentTime: currentTime, NowTime: NowTime};
+        }
+
+        //输出到对应span
+        function setTime() {
+            document.getElementById("time").innerHTML = getTime().NowTime;
+            document.getElementById("date").innerHTML = getTime().currentTime;
+        }
+
+        setTime();
+        setInterval(setTime, 1000);
+    </script>
+</div>
+
+<footer style="bottom: 0px;">
+    <!--一言放到页脚 -->
+    <center>
+    <div class="hitokoto" style="text-align: center;bottom: 0px;">
+        <span id="hitokoto"style="color: white; text-shadow: 4px 3px 20px rgb(0 0 0);
+bottom: 30px;
+"></span>
+    </div>
+        <script>
+            function getHitokoto() {
+                    var ajax;
+    try {
+        // Firefox, Opera 8.0+, Safari
+        ajax = new XMLHttpRequest();
+    } catch (e) {
+        // Internet Explorer
+        try {
+            ajax = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try {
+                ajax = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {
+                alert("糟糕,你的浏览器不能上传文件!");
+                return false;
+            }
+        }
+    }
+    ajax.open('get', 'https://v1.hitokoto.cn', true);
+    ajax.setRequestHeader('Content-Type', 'text/plan');
+                    ajax.onreadystatechange = function (result) {
+                        //解析JSON
+                        var json = JSON.parse(ajax.response);
+                        document.getElementById('hitokoto').innerHTML='⌈'+json['hitokoto']+'⌋';
+                        console.log(json['hitokoto']);
+
+                    }
+                    ajax.send(null);
+            }
+
+            getHitokoto();
+            //每隔一段时间刷新一言
+            setInterval(getHitokoto, 60000);
+            //点击复制
+            function copy() {
+                var hitokoto = document.getElementById('hitokoto');
+                hitokoto.select();
+                document.execCommand('copy');
+                notyf.success('复制成功');
+            }
+
+        </script>
+        </center>
+</footer>
+</body>
+</html>

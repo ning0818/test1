@@ -1,0 +1,32 @@
+<html lang="zh-cn" oncontextmenu="self.event.returnValue=false" onselectstart="return false">
+	<head>
+		<meta charset="UTF-8">
+		<title>作业</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="/sha.js" type="text/ecmascript"></script>
+		
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+		</script>
+		<script src="/tool.js">
+		</script>
+		<script type="text/javascript" src="/js.js">
+		</script>
+		<link rel="stylesheet" href="/css.css">
+		<link rel="icon" sizes="any" mask="" href="/logo.png">
+	</head>
+	<body style="
+	background: conic-gradient(from 0deg at 50% 50%, #5500ff 0%, #00ffe2 100%);
+	">
+		<input type="button" id="btn_logout" class='logout' value="退出" onclick="logout();">
+		<iframe id="iframe" name="iframe" src="" height="100%" frameborder="no"
+				border="0" width="100%">
+		</iframe>
+		<script>
+			if (isLogin()) {
+			    document.getElementById("iframe").src = 'https://www.kdocs.cn/l/clpROE3veh9P';
+			} else {
+			    window.location.href = '/login.html?next='+window.location.pathname+window.location.hash;
+			}
+		</script>
+	</body>
+</html>
